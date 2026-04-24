@@ -1,37 +1,39 @@
 # Chat Trace Viewer
 
-Веб-инструмент для просмотра истории одного чата по логам из VictoriaLogs.
+Web tool for inspecting the history of a single chat from VictoriaLogs records.
 
-Приложение:
+This project is intentionally specialized: it was built for local diagnostics and internal workflows around a specific log format. It is not a general-purpose trace viewer or a polished external SaaS product, but rather a practical engineering utility for manually investigating individual cases.
 
-- поднимает локальный HTTP-сервер;
-- запрашивает сырые записи из VictoriaLogs;
-- нормализует события в таймлайн;
-- показывает аномалии и диагностическую сводку в браузере.
+The application:
 
-## Требования
+- starts a local HTTP server;
+- fetches raw records from VictoriaLogs;
+- normalizes them into a timeline;
+- shows anomalies and diagnostic summary data in the browser.
+
+## Requirements
 
 - Go `1.26+`
-- доступ к VictoriaLogs
+- access to VictoriaLogs
 
-## Конфигурация
+## Configuration
 
-Базовые значения лежат в `config/app.env`.
-Локальные переопределения можно положить в `config/app.local.env`, взяв за основу `config/app.local.env.example`.
+Base defaults live in `config/app.env`.
+Local overrides can be placed in `config/app.local.env`, using `config/app.local.env.example` as a starting point.
 
-Основные переменные:
+Main variables:
 
-- `APP_ADDR` - адрес HTTP-сервера, по умолчанию `127.0.0.1:8080`
-- `VICTORIALOGS_BASE_URL` - базовый URL VictoriaLogs
-- `VICTORIALOGS_ACCOUNT_ID` - значение заголовка `AccountID`
-- `VICTORIALOGS_PROJECT_ID` - значение заголовка `ProjectID`
-- `VICTORIALOGS_USERNAME` - логин для basic auth, если нужен
-- `VICTORIALOGS_PASSWORD` - пароль для basic auth, если нужен
-- `TRACE_DEFAULT_LOOKBACK` - окно поиска по умолчанию, например `30d`
-- `TRACE_MAX_LOG_LINES` - лимит строк, читаемых из источника
-- `TRACE_MAX_RAW_LINES` - лимит строк, отдаваемых в UI
+- `APP_ADDR` - HTTP server address, defaults to `127.0.0.1:8080`
+- `VICTORIALOGS_BASE_URL` - VictoriaLogs base URL
+- `VICTORIALOGS_ACCOUNT_ID` - `AccountID` header value
+- `VICTORIALOGS_PROJECT_ID` - `ProjectID` header value
+- `VICTORIALOGS_USERNAME` - basic auth username, if needed
+- `VICTORIALOGS_PASSWORD` - basic auth password, if needed
+- `TRACE_DEFAULT_LOOKBACK` - default search window, for example `30d`
+- `TRACE_MAX_LOG_LINES` - limit for lines fetched from the source
+- `TRACE_MAX_RAW_LINES` - limit for lines returned to the UI
 
-Пример:
+Example:
 
 ```env
 APP_ADDR=127.0.0.1:8080
@@ -45,29 +47,29 @@ TRACE_MAX_LOG_LINES=500
 TRACE_MAX_RAW_LINES=500
 ```
 
-## Локальный запуск
+## Local Run
 
 ```bash
 cp config/app.local.env.example config/app.local.env
 make run
 ```
 
-После запуска открой `http://127.0.0.1:8080`.
+Then open `http://127.0.0.1:8080`.
 
-## Проверка
+## Verification
 
 ```bash
 make test
 make build
 ```
 
-## Структура
+## Structure
 
-- `cmd/chat-trace-viewer` - точка входа приложения
-- `internal/httpapi` - HTTP API и раздача веб-статик
-- `internal/service` - сценарий сборки chat trace
-- `internal/parser` - разбор сырых логов
-- `internal/normalizer` - нормализация событий
-- `internal/timeline` - сборка таймлайна и аномалий
-- `internal/victorialogs` - клиент VictoriaLogs
-- `web` - простой фронтенд без сборки
+- `cmd/chat-trace-viewer` - application entry point
+- `internal/httpapi` - HTTP API and static web serving
+- `internal/service` - chat trace assembly flow
+- `internal/parser` - raw log parsing
+- `internal/normalizer` - event normalization
+- `internal/timeline` - timeline and anomaly building
+- `internal/victorialogs` - VictoriaLogs client
+- `web` - simple frontend without a build step
