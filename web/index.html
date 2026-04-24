@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Жизнь чата</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="topbar-copy">
+          <h1>Жизнь чата</h1>
+          <p>Показывает, что происходило с чатом в разных сервисах</p>
+        </div>
+        <div class="topbar-meta">
+          <div id="mode-badge" class="badge">VictoriaLogs</div>
+          <p id="source-hint" class="source-hint">Источник не задан</p>
+        </div>
+      </header>
+
+      <section class="search">
+        <div class="grid">
+          <label>user id<input id="user_id" placeholder="Необязательно" /></label>
+          <label>session id *<input id="session_id" required placeholder="Обязательно для точного поиска" /></label>
+          <label>project<input id="project" placeholder="Необязательно" /></label>
+          <label>client<input id="client" placeholder="Необязательно" /></label>
+          <label>from<input id="from" type="datetime-local" /></label>
+          <label>to<input id="to" type="datetime-local" /></label>
+        </div>
+        <div class="controls">
+          <label><input id="hide_debug" type="checkbox" checked />Скрыть debug</label>
+          <label><input id="only_anomalies" type="checkbox" />Только аномалии</label>
+          <label><input id="collapse_duplicates" type="checkbox" checked />Схлопывать дубли</label>
+          <button id="search">Показать трассу</button>
+          <button id="reset" class="secondary">Сбросить</button>
+        </div>
+      </section>
+
+      <section id="status" class="status hidden"></section>
+      <details id="filters-panel" class="filters-panel hidden" open>
+        <summary class="filters-summary">
+          <span>Фильтры</span>
+          <span id="filters-caption" class="filters-caption">Выбрано всё</span>
+        </summary>
+        <div id="filters-body" class="filters-body"></div>
+      </details>
+
+      <section id="summary" class="summary hidden"></section>
+
+      <section id="results" class="results hidden">
+        <div class="main">
+          <div class="tabs">
+            <button class="tab active" data-tab="timeline">Лента событий</button>
+            <button class="tab" data-tab="anomalies">Аномалии</button>
+          </div>
+          <div id="timeline" class="tab-panel active"></div>
+          <div id="anomalies" class="tab-panel"></div>
+        </div>
+        <aside class="details">
+          <h2>Детали события</h2>
+          <pre id="details">Выберите событие слева</pre>
+        </aside>
+      </section>
+    </div>
+    <script src="/app.js"></script>
+  </body>
+</html>

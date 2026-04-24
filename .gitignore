@@ -1,0 +1,7 @@
+config/app.local.env
+.env
+.env.local
+chat-trace-viewer
+.vscode/
+.codex/
+.codex
