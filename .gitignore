@@ -3,5 +3,3 @@ config/app.local.env
 .env.local
 chat-trace-viewer
 .vscode/
-.codex/
-.codex
